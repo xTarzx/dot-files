@@ -27,9 +27,10 @@ exec --no-startup-id dex --autostart --environment i3
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
+exec --no-startup-id xset s 600 &
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- customlock
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -56,7 +57,7 @@ bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
 # PrintScreen
 bindsym Print exec --no-startup-id "spectacle -brc"
-#bindsym Shift+Print exec --no-startup-id "spectacle -bfc"
+bindsym Shift+Print exec --no-startup-id "spectacle -bfc"
 
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -128,6 +129,9 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
+
+bindsym $mod+Escape exec customlock
+
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1"
@@ -195,11 +199,33 @@ mode "resize" {
         bindsym l resize shrink height 10 px or 10 ppt
         bindsym ccedilla resize grow width 10 px or 10 ppt
 
+        bindsym Shift+j resize shrink width 5 px or 5 ppt
+        bindsym Shift+k resize grow height 5 px or 5 ppt
+        bindsym Shift+l resize shrink height 5 px or 5 ppt
+        bindsym Shift+ccedilla resize grow width 5 px or 5 ppt
+
+        bindsym Control+Shift+j resize shrink width 1 px or 1 ppt
+        bindsym Control+Shift+k resize grow height 1 px or 1 ppt
+        bindsym Control+Shift+l resize shrink height 1 px or 1 ppt
+        bindsym Control+Shift+ccedilla resize grow width 1 px or 1 ppt
+
+
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
         bindsym Down resize grow height 10 px or 10 ppt
         bindsym Up resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
+
+
+        bindsym Shift+Left resize shrink width 5 px or 5 ppt
+        bindsym Shift+Down resize grow height 5 px or 5 ppt
+        bindsym Shift+Up resize shrink height 5 px or 5 ppt
+        bindsym Shift+Right resize grow width 5 px or 5 ppt
+
+        bindsym Control+Shift+Left resize shrink width 1 px or 1 ppt
+        bindsym Control+Shift+Down resize grow height 1 px or 1 ppt
+        bindsym Control+Shift+Up resize shrink height 1 px or 1 ppt
+        bindsym Control+Shift+Right resize grow width 1 px or 1 ppt
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
@@ -228,13 +254,19 @@ bar {
 }
 
 
+
+for_window [instance="origin.exe"] floating enable
+
 #exec --no-startup-id xsetroot -solid "#000000"
-exec --no-startup-id dunst
-exec --no-startup-id volnoti
-exec_always --no-startup-id feh --bg-fill ~/Pictures/Background/mani.jpg
-exec --no-startup-id numlockx on
+exec --no-startup-id dunst &
+exec --no-startup-id volnoti &
+exec_always --no-startup-id feh --bg-fill ~/Pictures/Background/mani.jpg &
+exec --no-startup-id numlockx on &
 exec --no-startup-id fcitx &
-exec --no-startup-id "killall xss-lock && xss-lock -- i3lock --color=333333"
+exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1 &
+exec --no-startup-id xinput set-prop "SYNA7DB5:01 06CB:CD41 Touchpad" "libinput Disable While Typing Enabled" 0 &
+
+
 
 # colors
 
